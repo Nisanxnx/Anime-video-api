@@ -9,7 +9,7 @@ app.get("/random-video", async (req, res) => {
     const GITHUB_USERNAME = "Nisanxnx"; // GitHub username
     const GITHUB_REPO = "Anime-video-api";         // Private repo name
     const FILE_PATH = "videos.json";         // JSON ফাইলের path
-    const TOKEN = "YOUR_PERSONAL_ACCESS_TOKEN"; // GitHub PAT
+    const TOKEN = "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"; // GitHub PAT
 
     // Private repo থেকে JSON fetch
     const response = await axios.get(
