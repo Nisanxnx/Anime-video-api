@@ -5,16 +5,32 @@ const PORT = process.env.PORT || 3000;
 
 app.get("/random-video", async (req, res) => {
   try {
+    // GitHub Private Repo Info
+    const GITHUB_USERNAME = "Nisanxnx"; // GitHub username
+    const GITHUB_REPO = "Anime-video-api";         // Private repo name
+    const FILE_PATH = "videos.json";         // JSON ফাইলের path
+    const TOKEN = "YOUR_PERSONAL_ACCESS_TOKEN"; // GitHub PAT
+
+    // Private repo থেকে JSON fetch
     const response = await axios.get(
-      "https://raw.githubusercontent.com/Nisanxnx/Anime-video-api/main/videos.json"
+      `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/${FILE_PATH}`,
+      {
+        headers: {
+          Authorization: `token ${TOKEN}`,
+          Accept: "application/vnd.github.v3.raw" // raw content পাওয়ার জন্য
+        }
+      }
     );
 
-    const videos = response.data.videos;
+    const videos = response.data;
     if (!videos || videos.length === 0) {
       return res.status(404).json({ error: "কোনো ভিডিও পাওয়া যায়নি" });
     }
 
+    // র‍্যান্ডম ভিডিও নির্বাচন
     const randomVideo = videos[Math.floor(Math.random() * videos.length)];
+
+    // রেসপন্স
     res.json({ video: randomVideo });
 
   } catch (err) {
@@ -24,5 +40,5 @@ app.get("/random-video", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`API চলছে port ${PORT} এ`);
+  console.log(`API চলছে PORT ${PORT} এ`);
 });
